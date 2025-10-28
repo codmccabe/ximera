@@ -10,18 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Update apt cache
-        run: sudo apt-get update
-      
-      - name: Install TexLive
-        run: sudo apt-get install -y --fix-missing texlive-full
-        continue-on-error: true
+      - name: Install TexLive (minimal)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-xetex
       
       - name: Compile Ximera to HTML
         run: |
           cd chapters
-          # Your compilation command here
-          # latexmk -pdf *.tex (adjust as needed)
+          # Add your compilation command here
+          # Example (adjust based on your setup):
+          # for file in *.tex; do pdflatex "$file"; done
+          echo "Add your compilation commands here"
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
