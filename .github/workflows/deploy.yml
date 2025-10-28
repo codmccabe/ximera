@@ -7,17 +7,20 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest
+    
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Install TexLive
-        run: sudo apt-get install -y texlive-full
       
       - name: Compile Ximera to HTML
         run: |
           cd chapters
-          # Your compilation command here
-          # Example: latexmk -pdf *.tex (adjust as needed)
+          # Add your compilation command here
+          # Example for Ximera:
+          # make (if you have a Makefile)
+          # or manually compile each tex file
+          echo "Add your compilation commands here"
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
