@@ -1,21 +1,28 @@
-name: Compile Ximera
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  compile:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      
+      - name: Update apt cache
+        run: sudo apt-get update
+      
       - name: Install TexLive
-        run: sudo apt-get install -y texlive-full
-      - name: Compile TeX to HTML
+        run: sudo apt-get install -y --fix-missing texlive-full
+        continue-on-error: true
+      
+      - name: Compile Ximera to HTML
         run: |
-          # Your compilation commands here
           cd chapters
-          # compile tex files to html/
+          # Your compilation command here
+          # latexmk -pdf *.tex (adjust as needed)
+      
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
