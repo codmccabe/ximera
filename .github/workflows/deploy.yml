@@ -13,14 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Check repository structure
-        run: ls -la
+      - name: Install make4ht
+        run: apt-get update && apt-get install -y make4ht
       
-      - name: Compile Ximera to HTML
-        run: |
-          # Add your compilation command here
-          # Adjust the path based on where your .tex files are located
-          echo "Add your compilation commands here"
+      - name: Build with Make
+        run: make all
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
