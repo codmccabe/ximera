@@ -1,11 +1,11 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     container:
       image: texlive/texlive:latest
@@ -18,6 +18,13 @@ jobs:
       
       - name: Build with Make
         run: make all
+      
+      - name: Check what was created
+        run: |
+          echo "=== HTML Directory Contents ==="
+          ls -la html/
+          echo "=== Build Directory Contents ==="
+          ls -la build/pdf/ || echo "No build directory"
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
