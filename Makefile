@@ -33,8 +33,7 @@ $(PDF_DIR)/%.pdf: $(CHAPTERS_DIR)/%.tex
 # Build HTML files (using make4ht for Ximera)
 html: $(HTML_DIR) $(HTML_FILES)
 
-$(HTML_DIR)/%.html: $(CHAPTERS_DIR)/%.tex
-	make4ht -d $(HTML_DIR) -c noxhtml $<
+<
 
 # Clean build artifacts
 clean:
