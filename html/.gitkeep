@@ -1,0 +1,5 @@
+mkdir -p html
+touch html/.gitkeep
+git add html/.gitkeep
+git commit -m "Create html directory"
+git push
