@@ -28,7 +28,7 @@ pdf: $(PDF_DIR) $(PDF_FILES)
 
 $(PDF_DIR)/%.pdf: $(CHAPTERS_DIR)/%.tex
 	pdflatex -interaction=nonstopmode -output-directory=$(PDF_DIR) $<
-	pdflatex -interaction=nonstopmode -output-directory=$(PDF_DIR) $
+	pdflatex -interaction=nonstopmode -output-directory=$(PDF_DIR) $<
 
 # Build HTML files (using make4ht for Ximera)
 html: $(HTML_DIR) $(HTML_FILES)
