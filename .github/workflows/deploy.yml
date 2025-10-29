@@ -17,14 +17,25 @@ jobs:
         run: tlmgr install make4ht
       
       - name: Build with Make
-        run: make all
+        run: |
+          echo "=== Running Make ==="
+          make all -d
+          echo "=== Make completed ==="
       
       - name: Check what was created
         run: |
+          echo "=== Current Directory ==="
+          pwd
+          echo "=== Repository Contents ==="
+          ls -la
+          echo "=== Chapters Directory ==="
+          ls -la chapters/
           echo "=== HTML Directory Contents ==="
-          ls -la html/
+          ls -la html/ 2>&1 || echo "HTML directory doesn't exist"
           echo "=== Build Directory Contents ==="
-          ls -la build/pdf/ || echo "No build directory"
+          ls -la build/ 2>&1 || echo "Build directory doesn't exist"
+          echo "=== PDF Directory Contents ==="
+          ls -la build/pdf/ 2>&1 || echo "PDF directory doesn't exist"
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
