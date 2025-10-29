@@ -19,7 +19,8 @@ jobs:
       - name: Build with Make
         run: |
           echo "=== Running Make ==="
-          make all -d
+          make pdf
+          make html
           echo "=== Make completed ==="
       
       - name: Check what was created

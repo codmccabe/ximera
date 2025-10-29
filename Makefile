@@ -33,6 +33,12 @@ $(PDF_DIR)/%.pdf: $(CHAPTERS_DIR)/%.tex
 copy-to-html: $(HTML_DIR) $(PDF_FILES)
 	cp $(PDF_DIR)/*.pdf $(HTML_DIR)/
 
+# Build HTML files (using make4ht with tex4ht)
+html: $(HTML_DIR)
+	cd $(HTML_DIR) && for file in ../$(CHAPTERS_DIR)/*.tex; do \
+		htlatex "$file" "xhtml,mathml,charset=utf-8" " -cunihtf -utf8" "" "-interaction=nonstopmode" 2>/dev/null || true; \
+	done
+
 # Clean build artifacts
 clean:
 	rm -rf $(BUILD_DIR) $(HTML_DIR)
