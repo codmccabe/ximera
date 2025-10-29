@@ -1,6 +1,6 @@
-# Ximera Makefile for building PDF and HTML
+# Ximera Makefile for building PDF
 
-.PHONY: all clean html pdf
+.PHONY: all clean pdf
 
 # Directories
 CHAPTERS_DIR := chapters
@@ -11,7 +11,6 @@ PDF_DIR := $(BUILD_DIR)/pdf
 # Find all .tex files in chapters directory
 TEX_FILES := $(wildcard $(CHAPTERS_DIR)/*.tex)
 PDF_FILES := $(patsubst $(CHAPTERS_DIR)/%.tex,$(PDF_DIR)/%.pdf,$(TEX_FILES))
-HTML_FILES := $(patsubst $(CHAPTERS_DIR)/%.tex,$(HTML_DIR)/%.html,$(TEX_FILES))
 
 # Default target
 all: pdf html
@@ -30,11 +29,9 @@ $(PDF_DIR)/%.pdf: $(CHAPTERS_DIR)/%.tex
 	pdflatex -interaction=nonstopmode -output-directory=$(PDF_DIR) $<
 	pdflatex -interaction=nonstopmode -output-directory=$(PDF_DIR) $<
 
-# Build HTML files (using make4ht for Ximera)
-html: $(HTML_DIR) $(HTML_FILES)
-
-$(HTML_DIR)/%.html: $(CHAPTERS_DIR)/%.tex
-	make4ht -d $(HTML_DIR) $<
+# Copy PDFs to html directory
+html: $(HTML_DIR) $(PDF_FILES)
+	cp $(PDF_DIR)/*.pdf $(HTML_DIR)/
 
 # Clean build artifacts
 clean:
@@ -43,5 +40,3 @@ clean:
 	find $(CHAPTERS_DIR) -name "*.log" -delete
 	find $(CHAPTERS_DIR) -name "*.out" -delete
 	find $(CHAPTERS_DIR) -name "*.toc" -delete
-	find $(CHAPTERS_DIR) -name "*.4tc" -delete
-	find $(CHAPTERS_DIR) -name "*.4ct" -delete
