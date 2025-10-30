@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Build and Deploy with Xake
 
 on:
   push:
@@ -8,29 +8,31 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:latest
+      image: ghcr.io/ximeraproject/xake2024:v2.4.2
     
     steps:
       - uses: actions/checkout@v3
       
-      - name: Install make4ht via tlmgr
-        run: tlmgr install make4ht
+      - name: Make scripts executable
+        run: chmod +x xmScripts/xmlatex*
       
-      - name: Build with Make
-        run: |
-          echo "=== Running Make ==="
-          make pdf
-          make html
-          echo "=== Make completed ==="
+      - name: Build with xake (bake)
+        run: xake bake
       
       - name: Check what was created
         run: |
-          echo "=== HTML Directory Contents ==="
-          ls -lah html/ || echo "HTML directory is empty"
-          echo "=== Looking for .html files ==="
-          find . -name "*.html" -type f
-          echo "=== Looking for .pdf files ==="
-          find . -name "*.pdf" -type f
+          echo "=== Checking for HTML files ==="
+          find . -name "*.html" -type f | head -20
+          echo "=== Checking for PDF files ==="
+          find . -name "*.pdf" -type f | head -20
+      
+      - name: Copy build output to html directory
+        run: |
+          mkdir -p html
+          # Copy all generated HTML files to html directory
+          find . -name "*.html" -type f ! -path "./html/*" -exec cp {} html/ \;
+          # Copy any generated PDFs
+          find . -name "*.pdf" -type f ! -path "./html/*" -exec cp {} html/ \;
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
