@@ -18,7 +18,11 @@ jobs:
           git config --global --add safe.directory '*'
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
-          git config --global --list | grep safe
+      
+      - name: Fix git ownership
+        run: |
+          chown -R $(whoami) .git
+          ls -la .git
       
       - name: Make scripts executable
         run: chmod +x xmScripts/xmlatex*
