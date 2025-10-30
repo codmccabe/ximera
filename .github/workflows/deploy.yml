@@ -24,7 +24,10 @@ jobs:
         run: chmod +x xmScripts/xmlatex*
       
       - name: Build with xake (bake)
-        run: xake --skip-mathjax bake
+        run: |
+          pwd
+          ls -la
+          xake -r . --skip-mathjax bake
       
       - name: Check what was created
         run: |
