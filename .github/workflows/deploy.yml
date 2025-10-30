@@ -15,15 +15,16 @@ jobs:
       
       - name: Configure git
         run: |
-          git config --global safe.directory '*'
+          git config --global --add safe.directory '*'
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
+          git config --global --list | grep safe
       
       - name: Make scripts executable
         run: chmod +x xmScripts/xmlatex*
       
       - name: Build with xake (bake)
-        run: xake bake
+        run: xake --skip-mathjax bake
       
       - name: Check what was created
         run: |
