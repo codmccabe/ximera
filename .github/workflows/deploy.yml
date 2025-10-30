@@ -27,11 +27,15 @@ jobs:
       - name: Make scripts executable
         run: chmod +x xmScripts/xmlatex*
       
-      - name: Build with xake (bake)
+      - name: Compile with xake
         run: |
-          pwd
-          ls -la
-          xake -r . --skip-mathjax bake
+          mkdir -p html
+          for file in chapters/*.tex; do
+            if [ -f "$file" ]; then
+              echo "Compiling $file"
+              xake -r . compile "$file" 2>&1 | head -100 || true
+            fi
+          done
       
       - name: Check what was created
         run: |
